@@ -3,378 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Reaction Identifier</title>
+    <title>HKDSE Chemistry Observation Quiz</title>
     <style>
-        /* Accessible & Responsive Design Colors */
-        :root {
-            --primary-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-muted: #b3b3b3;
-            --accent-blue: #00e5ff;
-            --accent-green: #00e676;
-            --accent-red: #ff1744;
-            --focus-outline: #ffea00;
-        }
-
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--text-main);
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
         }
-
-        .container {
-            max-width: 700px;
+        .quiz-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
             width: 100%;
         }
-
-        h1 {
-            text-align: center;
-            color: var(--accent-blue);
+        h2 {
+            margin-top: 0;
+            color: #2c3e50;
         }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-
-        /* Game Card */
-        .card {
-            background-color: var(--card-bg);
-            border: 2px solid #333;
-            border-radius: 12px;
-            padding: 24px;
+        .reactants-box {
+            background: #eef2f5;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 1.2em;
             margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border-radius: 4px;
         }
-
-        .chemical-display {
+        .options-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .chem-badge {
-            background: #333;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 1px solid #555;
-        }
-
-        .plus {
-            color: var(--accent-blue);
-        }
-
-        /* Form elements */
-        .question-group {
-            margin-bottom: 25px;
-        }
-
-        label.section-title {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-muted);
-        }
-
-        select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            background-color: #2a2a2a;
-            color: #fff;
-            border: 2px solid #555;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        /* Checkbox Layout adjustments */
-        .checkbox-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px;
-            background-color: #2a2a2a;
-            padding: 16px;
-            border-radius: 8px;
-            border: 2px solid #555;
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 10px;
-            color: #fff;
-            font-weight: normal;
-            cursor: pointer;
-            user-select: none;
+            margin-bottom: 20px;
         }
-
-        .checkbox-label input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--accent-blue);
-        }
-
-        /* Focus styling */
-        select:focus, button:focus, .checkbox-label input[type="checkbox"]:focus {
-            outline: 3px solid var(--focus-outline);
-            outline-offset: 2px;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--accent-blue);
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: bold;
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             cursor: pointer;
             transition: background 0.2s;
         }
-
-        button:hover {
-            background-color: #00b8d4;
+        .option-label:hover {
+            background: #f1f1f1;
         }
-
-        /* Feedback Section */
-        .feedback {
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-            font-weight: bold;
-            display: none;
-            white-space: pre-line; /* Allows linebreaks in feedback text */
+        .option-label input {
+            margin-right: 15px;
+            transform: scale(1.2);
         }
-
-        .feedback.correct {
-            display: block;
-            background-color: rgba(0, 230, 118, 0.15);
-            border: 2px solid var(--accent-green);
-            color: var(--accent-green);
+        .correct {
+            background-color: #d4edda !important;
+            border-color: #c3e6cb !important;
+            color: #155724;
         }
-
-        .feedback.incorrect {
-            display: block;
-            background-color: rgba(255, 23, 68, 0.15);
-            border: 2px solid var(--accent-red);
-            color: var(--accent-red);
+        .incorrect {
+            background-color: #f8d7da !important;
+            border-color: #f5c6cb !important;
+            color: #721c24;
         }
-
-        .score-board {
-            text-align: center;
-            font-size: 1.1rem;
+        .missed {
+            border: 2px dashed #28a745 !important;
+        }
+        .btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        #feedback {
             margin-top: 15px;
-            color: var(--text-muted);
+            font-weight: bold;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>Chemical Reaction Lab</h1>
-        <p style="text-align: center; color: var(--text-muted);">Identify the correct reaction type and select all matching visual observations.</p>
-    </header>
-
-    <main>
-        <div class="card" role="region" aria-labelledby="question-heading">
-            <h2 id="question-heading" class="sr-only">Current Question</h2>
-            
-            <p style="text-align: center; margin: 0; color: var(--text-muted);">What happens when you mix:</p>
-            
-            <div class="chemical-display">
-                <span class="chem-badge" id="chem1">Chemical 1</span>
-                <span class="plus" aria-hidden="true">+</span>
-                <span class="chem-badge" id="chem2">Chemical 2</span>
-            </div>
-
-            <form id="quiz-form" onsubmit="handleSubmit(event)">
-                <div class="question-group">
-                    <label for="reaction-select" class="section-title">Predict the Reaction Type:</label>
-                    <select id="reaction-select" required>
-                        <option value="" disabled selected>-- Choose a reaction type --</option>
-                        <option value="Synthesis">Synthesis</option>
-                        <option value="Decomposition">Decomposition</option>
-                        <option value="Single Replacement">Single Replacement</option>
-                        <option value="Double Replacement">Double Replacement (Precipitation)</option>
-                        <option value="Combustion">Combustion</option>
-                    </select>
-                </div>
-
-                <div class="question-group">
-                    <span class="section-title">Predict the Visual Observation(s) (Select all that apply):</span>
-                    <div class="checkbox-container" id="observation-container">
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="vigorous-bubbling"> Vigorous bubbling / gas evolution
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="heat-released"> Heat released / temperature rise
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="white-light"> Blinding bright white light
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="yellow-ppt"> Bright yellow solid forms (precipitate)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="solution-blue"> Solution turns blue
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="no-reaction"> No visible changes (No Reaction)
-                        </label>
-                    </div>
-                </div>
-
-                <button type="submit" id="submit-btn">Submit Answer</button>
-            </form>
-
-            <div id="feedback" class="feedback" role="live" aria-live="assertive"></div>
+<div class="quiz-container">
+    <h2>Predict the Observations</h2>
+    <div class="reactants-box" id="reactants-display">
+        </div>
+    
+    <div class="options-container" id="options-container">
         </div>
 
-        <div class="score-board" aria-live="polite">
-            Score: <span id="score">0</span> / <span id="total">0</span>
-        </div>
-    </main>
+    <div class="controls">
+        <button class="btn" id="submit-btn" onclick="checkAnswers()">Submit Answer</button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()" style="display: none;">Next Reaction</button>
+    </div>
+
+    <div id="feedback"></div>
 </div>
 
 <script>
-    // Dictionary mapping observation values to user-friendly text descriptions
-    const obsTextMap = {
-        "vigorous-bubbling": "Vigorous bubbling / gas evolution",
-        "heat-released": "Heat released / temperature rise",
-        "white-light": "Blinding bright white light",
-        "yellow-ppt": "Bright yellow solid forms (precipitate)",
-        "solution-blue": "Solution turns blue",
-        "no-reaction": "No visible changes (No Reaction)"
-    };
-
-    // Dataset adjusted to account for multi-selection observation arrays
-    const questions = [
+    // The 5 Reaction Template Database
+    // Using HTML <sub> tags to format chemical formulas correctly on the web page.
+    const reactions = [
         {
-            chem1: "Magnesium ribbon (Mg)",
-            chem2: "Oxygen gas (O₂ + heat)",
-            reaction: "Synthesis",
-            observation: ["white-light", "heat-released"]
+            reactants: "CuCO<sub>3</sub>(s) + H<sub>2</sub>SO<sub>4</sub>(aq)",
+            options: [
+                "Green solid dissolves",
+                "Colorless gas bubbles evolved",
+                "Solution turns blue",
+                "White precipitate forms",
+                "Pungent gas evolved"
+            ],
+            correctAnswers: [
+                "Green solid dissolves",
+                "Colorless gas bubbles evolved",
+                "Solution turns blue"
+            ]
         },
         {
-            chem1: "Hydrochloric Acid (HCl)",
-            chem2: "Zinc metal (Zn)",
-            reaction: "Single Replacement",
-            observation: ["vigorous-bubbling", "heat-released"]
+            reactants: "FeSO<sub>4</sub>(aq) + KMnO<sub>4</sub>(aq)/H<sup>+</sup>",
+            options: [
+                "Purple solution turns colorless",
+                "Solution turns pale yellow",
+                "Green precipitate forms",
+                "Brown gas evolved"
+            ],
+            correctAnswers: [
+                "Purple solution turns colorless",
+                "Solution turns pale yellow"
+            ]
         },
         {
-            chem1: "Potassium Iodide (KI)",
-            chem2: "Lead(II) Nitrate (Pb(NO₃)₂)",
-            reaction: "Double Replacement",
-            observation: ["yellow-ppt"]
+            reactants: "Cu(s) + 14M HNO<sub>3</sub>(aq)",
+            options: [
+                "Reddish-brown solid dissolves",
+                "Brown gas evolved",
+                "Solution turns blue",
+                "Colorless gas bubbles evolved",
+                "White solid dissolves"
+            ],
+            correctAnswers: [
+                "Reddish-brown solid dissolves",
+                "Brown gas evolved",
+                "Solution turns blue"
+            ]
         },
         {
-            chem1: "Copper metal (Cu)",
-            chem2: "Silver Nitrate solution (AgNO₃)",
-            reaction: "Single Replacement",
-            observation: ["solution-blue"]
+            reactants: "Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>(aq) + HCl(aq)",
+            options: [
+                "Yellow precipitate forms",
+                "Pungent gas evolved",
+                "Solution turns brown",
+                "Green solid dissolves"
+            ],
+            correctAnswers: [
+                "Yellow precipitate forms",
+                "Pungent gas evolved"
+            ]
+        },
+        {
+            reactants: "Mg(s) + HCl(aq)",
+            options: [
+                "Silvery solid dissolves",
+                "Colorless gas bubbles evolved",
+                "Solution turns yellow",
+                "White precipitate forms"
+            ],
+            correctAnswers: [
+                "Silvery solid dissolves",
+                "Colorless gas bubbles evolved"
+            ]
         }
     ];
 
-    let currentIdx = 0;
-    let score = 0;
-    let totalAsked = 0;
+    let currentQuestionIndex = 0;
 
-    const chem1El = document.getElementById('chem1');
-    const chem2El = document.getElementById('chem2');
-    const form = document.getElementById('quiz-form');
-    const rxSelect = document.getElementById('reaction-select');
-    const containerEl = document.getElementById('observation-container');
-    const feedbackEl = document.getElementById('feedback');
-    const scoreEl = document.getElementById('score');
-    const totalEl = document.getElementById('total');
-    const submitBtn = document.getElementById('submit-btn');
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
 
     function loadQuestion() {
-        const q = questions[currentIdx];
-        chem1El.textContent = q.chem1;
-        chem2El.textContent = q.chem2;
+        // Reset UI
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("submit-btn").style.display = "inline-block";
+        document.getElementById("next-btn").style.display = "none";
+        document.getElementById("submit-btn").disabled = false;
         
-        // Reset form selections
-        form.reset();
-        submitBtn.textContent = "Submit Answer";
-        submitBtn.disabled = false;
+        const q = reactions[currentQuestionIndex];
+        document.getElementById("reactants-display").innerHTML = q.reactants;
+
+        const optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+
+        // Shuffle options so they aren't in the same order every time
+        const shuffledOptions = shuffleArray([...q.options]);
+
+        shuffledOptions.forEach((opt, index) => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            label.id = "label-" + index;
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = opt;
+            checkbox.id = "checkbox-" + index;
+
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(opt));
+            optionsContainer.appendChild(label);
+        });
     }
 
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        // If displaying result, advance to the next step
-        if (submitBtn.textContent === "Next Question") {
-            feedbackEl.className = "feedback";
-            feedbackEl.textContent = "";
-            currentIdx = (currentIdx + 1) % questions.length;
-            loadQuestion();
-            rxSelect.focus();
-            return;
-        }
-
-        const currentQuestion = questions[currentIdx];
-        const userRx = rxSelect.value;
+    function checkAnswers() {
+        const q = reactions[currentQuestionIndex];
+        const optionsContainer = document.getElementById("options-container");
+        const labels = optionsContainer.getElementsByClassName("option-label");
         
-        // Collect all checked checkbox values into an array
-        const checkedBoxes = Array.from(containerEl.querySelectorAll('input[type="checkbox"]:checked'))
-                                  .map(cb => cb.value);
+        let allCorrect = true;
+        let selectedCount = 0;
 
-        // Validation rule: Must select at least one observation choice
-        if (checkedBoxes.length === 0) {
-            alert("Please select at least one visual observation choice before submitting!");
-            return;
+        // Evaluate each checkbox
+        for (let label of labels) {
+            const checkbox = label.querySelector("input");
+            const isChecked = checkbox.checked;
+            const isCorrectAnswer = q.correctAnswers.includes(checkbox.value);
+
+            // Disable checkboxes after submission
+            checkbox.disabled = true;
+
+            if (isChecked) {
+                selectedCount++;
+                if (isCorrectAnswer) {
+                    label.classList.add("correct"); // Right answer chosen
+                } else {
+                    label.classList.add("incorrect"); // Wrong answer chosen
+                    allCorrect = false;
+                }
+            } else {
+                if (isCorrectAnswer) {
+                    label.classList.add("missed"); // Missed a right answer
+                    allCorrect = false;
+                }
+            }
         }
 
-        totalAsked++;
+        // Check if user selected nothing
+        if (selectedCount === 0) {
+            allCorrect = false;
+        }
 
-        // Verify array contents match regardless of user selection order
-        const expectedObs = currentQuestion.observation;
-        const isObsCorrect = checkedBoxes.length === expectedObs.length && 
-                             checkedBoxes.every(val => expectedObs.includes(val));
-
-        if (userRx === currentQuestion.reaction && isObsCorrect) {
-            score++;
-            feedbackEl.textContent = "Correct! Spot on prediction.";
-            feedbackEl.className = "feedback correct";
+        // Provide Feedback
+        const feedbackDiv = document.getElementById("feedback");
+        if (allCorrect) {
+            feedbackDiv.innerText = "Excellent! You identified all observations.";
+            feedbackDiv.style.color = "#155724";
         } else {
-            // Map programmatic tokens back to understandable list text items for feedback
-            const correctObsLabels = expectedObs.map(val => `• ${obsTextMap[val]}`).join("\n");
-            
-            feedbackEl.textContent = `Incorrect.\n\nCorrect Reaction:\n— ${currentQuestion.reaction}\n\nCorrect Observation(s):\n${correctObsLabels}`;
-            feedbackEl.className = "feedback incorrect";
+            feedbackDiv.innerText = "Not quite. Check the highlighted answers to see what you missed.";
+            feedbackDiv.style.color = "#721c24";
         }
 
-        // Update score metric displays
-        scoreEl.textContent = score;
-        totalEl.textContent = totalAsked;
-
-        // Alter action flow switch token text
-        submitBtn.textContent = "Next Question";
+        // Toggle buttons
+        document.getElementById("submit-btn").style.display = "none";
+        document.getElementById("next-btn").style.display = "inline-block";
     }
 
-    // Initialize core cycle loop
-    loadQuestion();
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex >= reactions.length) {
+            // Loop back to the start or show an end screen
+            currentQuestionIndex = 0; 
+            alert("You have completed all template reactions. Looping back to the start!");
+        }
+        loadQuestion();
+    }
+
+    // Initialize the first question on load
+    window.onload = loadQuestion;
+
 </script>
+
 </body>
 </html>
