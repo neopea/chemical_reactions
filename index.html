@@ -7,57 +7,81 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            background-color: #f0f4f8;
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .quiz-container {
             background: #fff;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 650px;
             width: 100%;
         }
         h2 {
             margin-top: 0;
             color: #2c3e50;
+            text-align: center;
+            font-size: 1.6em;
         }
         .reactants-box {
             background: #eef2f5;
-            padding: 15px;
-            border-left: 5px solid #3498db;
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            padding: 18px;
+            border-left: 6px solid #3498db;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 25px;
             border-radius: 4px;
+            text-align: center;
         }
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+        .category-section {
+            background: #fff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 18px;
+        }
+        .category-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #f0f4f8;
+            padding-bottom: 5px;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
         }
         .option-label {
             display: flex;
             align-items: center;
-            padding: 10px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 8px 12px;
+            background: #f9fbfd;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background 0.2s;
+            font-size: 0.95em;
+            transition: background 0.2s, border-color 0.2s;
         }
         .option-label:hover {
-            background: #f1f1f1;
+            background: #f1f5f9;
         }
         .option-label input {
-            margin-right: 15px;
-            transform: scale(1.2);
+            margin-right: 10px;
+            transform: scale(1.1);
         }
+        /* Feedback Styling */
         .correct {
             background-color: #d4edda !important;
             border-color: #c3e6cb !important;
@@ -70,32 +94,33 @@
         }
         .missed {
             border: 2px dashed #28a745 !important;
-        }
-        .btn {
-            background: #3498db;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn:hover {
-            background: #2980b9;
-        }
-        .btn:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
-        }
-        #feedback {
-            margin-top: 15px;
-            font-weight: bold;
+            background-color: #f4fff6 !important;
         }
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 25px;
+        }
+        .btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1em;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        #feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1em;
         }
     </style>
 </head>
@@ -103,11 +128,24 @@
 
 <div class="quiz-container">
     <h2>Predict the Observations</h2>
+    
     <div class="reactants-box" id="reactants-display">
         </div>
     
-    <div class="options-container" id="options-container">
-        </div>
+    <div class="category-section">
+        <div class="category-title">1. Precipitate (with colour) or Dissolving</div>
+        <div class="options-grid" id="cat1-container"></div>
+    </div>
+
+    <div class="category-section">
+        <div class="category-title">2. Solution Colour Change (Select 2 colours if changed)</div>
+        <div class="options-grid" id="cat2-container"></div>
+    </div>
+
+    <div class="category-section">
+        <div class="category-title">3. Gas Bubble / Smell</div>
+        <div class="options-grid" id="cat3-container"></div>
+    </div>
 
     <div class="controls">
         <button class="btn" id="submit-btn" onclick="checkAnswers()">Submit Answer</button>
@@ -118,77 +156,82 @@
 </div>
 
 <script>
-    // The 5 Reaction Template Database
-    // Using HTML <sub> tags to format chemical formulas correctly on the web page.
+    // 5 Template Reactions Structured into your 3 Custom Categories
     const reactions = [
         {
             reactants: "CuCO<sub>3</sub>(s) + H<sub>2</sub>SO<sub>4</sub>(aq)",
-            options: [
-                "Green solid dissolves",
-                "Colorless gas bubbles evolved",
-                "Solution turns blue",
-                "White precipitate forms",
-                "Pungent gas evolved"
-            ],
-            correctAnswers: [
-                "Green solid dissolves",
-                "Colorless gas bubbles evolved",
-                "Solution turns blue"
-            ]
+            cat1: {
+                options: ["Green solid dissolves", "Blue solid dissolves", "White precipitate forms", "No precipitate or dissolving change"],
+                correct: ["Green solid dissolves"]
+            },
+            cat2: {
+                options: ["Colorless", "Blue", "Green", "Yellow", "Purple", "No solution colour change"],
+                correct: ["Colorless", "Blue"]
+            },
+            cat3: {
+                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "Brown gas evolved", "No gas or smell observed"],
+                correct: ["Colorless gas bubbles evolved"]
+            }
         },
         {
             reactants: "FeSO<sub>4</sub>(aq) + KMnO<sub>4</sub>(aq)/H<sup>+</sup>",
-            options: [
-                "Purple solution turns colorless",
-                "Solution turns pale yellow",
-                "Green precipitate forms",
-                "Brown gas evolved"
-            ],
-            correctAnswers: [
-                "Purple solution turns colorless",
-                "Solution turns pale yellow"
-            ]
+            cat1: {
+                options: ["Dirty green precipitate forms", "Brown precipitate forms", "No precipitate or dissolving change"],
+                correct: ["No precipitate or dissolving change"]
+            },
+            cat2: {
+                options: ["Colorless", "Purple", "Yellow", "Green", "Brown", "No solution colour change"],
+                correct: ["Purple", "Colorless"] // Purple KMnO4 decolourizes to colorless/very pale yellow
+            },
+            cat3: {
+                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "No gas or smell observed"],
+                correct: ["No gas or smell observed"]
+            }
         },
         {
             reactants: "Cu(s) + 14M HNO<sub>3</sub>(aq)",
-            options: [
-                "Reddish-brown solid dissolves",
-                "Brown gas evolved",
-                "Solution turns blue",
-                "Colorless gas bubbles evolved",
-                "White solid dissolves"
-            ],
-            correctAnswers: [
-                "Reddish-brown solid dissolves",
-                "Brown gas evolved",
-                "Solution turns blue"
-            ]
+            cat1: {
+                options: ["Reddish-brown solid dissolves", "Silvery solid dissolves", "No precipitate or dissolving change"],
+                correct: ["Reddish-brown solid dissolves"]
+            },
+            cat2: {
+                options: ["Colorless", "Blue", "Green", "Brown", "No solution colour change"],
+                correct: ["Colorless", "Blue"]
+            },
+            cat3: {
+                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "Brown gas evolved", "No gas or smell observed"],
+                correct: ["Brown gas evolved", "Pungent gas evolved"] // NO2 is both brown and pungent
+            }
         },
         {
             reactants: "Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>(aq) + HCl(aq)",
-            options: [
-                "Yellow precipitate forms",
-                "Pungent gas evolved",
-                "Solution turns brown",
-                "Green solid dissolves"
-            ],
-            correctAnswers: [
-                "Yellow precipitate forms",
-                "Pungent gas evolved"
-            ]
+            cat1: {
+                options: ["Yellow precipitate forms", "White precipitate forms", "No precipitate or dissolving change"],
+                correct: ["Yellow precipitate forms"]
+            },
+            cat2: {
+                options: ["Colorless", "Yellow", "Brown", "No solution colour change"],
+                correct: ["No solution colour change"]
+            },
+            cat3: {
+                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "No gas or smell observed"],
+                correct: ["Pungent gas evolved"] // SO2 gas is pungent
+            }
         },
         {
             reactants: "Mg(s) + HCl(aq)",
-            options: [
-                "Silvery solid dissolves",
-                "Colorless gas bubbles evolved",
-                "Solution turns yellow",
-                "White precipitate forms"
-            ],
-            correctAnswers: [
-                "Silvery solid dissolves",
-                "Colorless gas bubbles evolved"
-            ]
+            cat1: {
+                options: ["Silvery solid dissolves", "White precipitate forms", "No precipitate or dissolving change"],
+                correct: ["Silvery solid dissolves"]
+            },
+            cat2: {
+                options: ["Colorless", "Blue", "Yellow", "No solution colour change"],
+                correct: ["No solution colour change"]
+            },
+            cat3: {
+                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "No gas or smell observed"],
+                correct: ["Colorless gas bubbles evolved"]
+            }
         }
     ];
 
@@ -202,87 +245,84 @@
         return array;
     }
 
-    function loadQuestion() {
-        // Reset UI
-        document.getElementById("feedback").innerText = "";
-        document.getElementById("submit-btn").style.display = "inline-block";
-        document.getElementById("next-btn").style.display = "none";
-        document.getElementById("submit-btn").disabled = false;
+    function renderCategory(containerId, catData, catKey) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
         
-        const q = reactions[currentQuestionIndex];
-        document.getElementById("reactants-display").innerHTML = q.reactants;
-
-        const optionsContainer = document.getElementById("options-container");
-        optionsContainer.innerHTML = "";
-
-        // Shuffle options so they aren't in the same order every time
-        const shuffledOptions = shuffleArray([...q.options]);
+        // Shuffle choices within their category block
+        const shuffledOptions = shuffleArray([...catData.options]);
 
         shuffledOptions.forEach((opt, index) => {
             const label = document.createElement("label");
             label.className = "option-label";
-            label.id = "label-" + index;
-
+            
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.value = opt;
-            checkbox.id = "checkbox-" + index;
+            checkbox.dataset.category = catKey;
 
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(opt));
-            optionsContainer.appendChild(label);
+            container.appendChild(label);
         });
+    }
+
+    function loadQuestion() {
+        // Clear old feedback and setup buttons
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("submit-btn").style.display = "inline-block";
+        document.getElementById("next-btn").style.display = "none";
+        
+        const q = reactions[currentQuestionIndex];
+        document.getElementById("reactants-display").innerHTML = q.reactants;
+
+        // Render all 3 categories cleanly
+        renderCategory("cat1-container", q.cat1, "cat1");
+        renderCategory("cat2-container", q.cat2, "cat2");
+        renderCategory("cat3-container", q.cat3, "cat3");
     }
 
     function checkAnswers() {
         const q = reactions[currentQuestionIndex];
-        const optionsContainer = document.getElementById("options-container");
-        const labels = optionsContainer.getElementsByClassName("option-label");
-        
-        let allCorrect = true;
-        let selectedCount = 0;
+        const allCheckboxes = document.querySelectorAll(".option-label input");
+        let scorePerfect = true;
 
-        // Evaluate each checkbox
-        for (let label of labels) {
-            const checkbox = label.querySelector("input");
+        allCheckboxes.forEach(checkbox => {
+            const label = checkbox.parentElement;
+            const categoryKey = checkbox.dataset.category;
             const isChecked = checkbox.checked;
-            const isCorrectAnswer = q.correctAnswers.includes(checkbox.value);
+            
+            // Reference the correct answers for this specific category
+            const correctAnswers = q[categoryKey].correct;
+            const isCorrectAnswer = correctAnswers.includes(checkbox.value);
 
-            // Disable checkboxes after submission
-            checkbox.disabled = true;
+            checkbox.disabled = true; // Lock choices
 
             if (isChecked) {
-                selectedCount++;
                 if (isCorrectAnswer) {
-                    label.classList.add("correct"); // Right answer chosen
+                    label.classList.add("correct");
                 } else {
-                    label.classList.add("incorrect"); // Wrong answer chosen
-                    allCorrect = false;
+                    label.classList.add("incorrect");
+                    scorePerfect = false;
                 }
             } else {
                 if (isCorrectAnswer) {
-                    label.classList.add("missed"); // Missed a right answer
-                    allCorrect = false;
+                    label.classList.add("missed"); // Highlight correct box that was skipped
+                    scorePerfect = false;
                 }
             }
-        }
+        });
 
-        // Check if user selected nothing
-        if (selectedCount === 0) {
-            allCorrect = false;
-        }
-
-        // Provide Feedback
+        // Provide overall result feedback
         const feedbackDiv = document.getElementById("feedback");
-        if (allCorrect) {
-            feedbackDiv.innerText = "Excellent! You identified all observations.";
+        if (scorePerfect) {
+            feedbackDiv.innerText = "Excellent! All category observations are completely correct.";
             feedbackDiv.style.color = "#155724";
         } else {
-            feedbackDiv.innerText = "Not quite. Check the highlighted answers to see what you missed.";
+            feedbackDiv.innerText = "Some observations are incorrect or missing. Check the highlighted options.";
             feedbackDiv.style.color = "#721c24";
         }
 
-        // Toggle buttons
         document.getElementById("submit-btn").style.display = "none";
         document.getElementById("next-btn").style.display = "inline-block";
     }
@@ -290,16 +330,13 @@
     function nextQuestion() {
         currentQuestionIndex++;
         if (currentQuestionIndex >= reactions.length) {
-            // Loop back to the start or show an end screen
             currentQuestionIndex = 0; 
-            alert("You have completed all template reactions. Looping back to the start!");
+            alert("All template reactions completed. Restarting quiz!");
         }
         loadQuestion();
     }
 
-    // Initialize the first question on load
     window.onload = loadQuestion;
-
 </script>
 
 </body>
