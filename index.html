@@ -22,7 +22,7 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            max-width: 650px;
+            max-width: 700px;
             width: 100%;
         }
         h2 {
@@ -35,7 +35,7 @@
             background: #eef2f5;
             padding: 18px;
             border-left: 6px solid #3498db;
-            font-size: 1.3em;
+            font-size: 1.4em;
             font-weight: bold;
             margin-bottom: 25px;
             border-radius: 4px;
@@ -51,17 +51,30 @@
         .category-title {
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             border-bottom: 2px solid #f0f4f8;
             padding-bottom: 5px;
-            font-size: 1em;
+            font-size: 0.95em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+        .sub-title {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-bottom: 6px;
+            font-weight: bold;
         }
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
+            margin-bottom: 10px;
+        }
+        .color-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
         }
         .option-label {
             display: flex;
@@ -71,17 +84,17 @@
             border: 1px solid #dee2e6;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95em;
+            font-size: 0.9em;
             transition: background 0.2s, border-color 0.2s;
         }
         .option-label:hover {
             background: #f1f5f9;
         }
         .option-label input {
-            margin-right: 10px;
+            margin-right: 8px;
             transform: scale(1.1);
         }
-        /* Feedback Styling */
+        /* Feedback States */
         .correct {
             background-color: #d4edda !important;
             border-color: #c3e6cb !important;
@@ -133,18 +146,54 @@
         </div>
     
     <div class="category-section">
-        <div class="category-title">1. Precipitate (with colour) or Dissolving</div>
-        <div class="options-grid" id="cat1-container"></div>
+        <div class="category-title">1. Precipitate or Dissolving State</div>
+        <div class="options-grid">
+            <label class="option-label"><input type="checkbox" name="cat1" value="Solid dissolves">Solid dissolves</label>
+            <label class="option-label"><input type="checkbox" name="cat1" value="White precipitate forms">White precipitate forms</label>
+            <label class="option-label"><input type="checkbox" name="cat1" value="Yellow precipitate forms">Yellow precipitate forms</label>
+            <label class="option-label"><input type="checkbox" name="cat1" value="Brown precipitate forms">Brown precipitate forms</label>
+            <label class="option-label"><input type="checkbox" name="cat1" value="No precipitate or dissolving change">No precipitate or dissolving change</label>
+        </div>
     </div>
 
     <div class="category-section">
-        <div class="category-title">2. Solution Colour Change (Select 2 colours if changed)</div>
-        <div class="options-grid" id="cat2-container"></div>
+        <div class="category-title">2. Solution Colour Change</div>
+        
+        <div class="sub-title">Initial Colour (Select 1):</div>
+        <div class="color-row">
+            <label class="option-label"><input type="checkbox" name="cat2-from" value="Colorless">Colorless</label>
+            <label class="option-label"><input type="checkbox" name="cat2-from" value="Red">Red</label>
+            <label class="option-label"><input type="checkbox" name="cat2-from" value="Green">Green</label>
+            <label class="option-label"><input type="checkbox" name="cat2-from" value="Blue">Blue</label>
+            <label class="option-label"><input type="checkbox" name="cat2-from" value="Yellow">Yellow</label>
+            <label class="option-label"><input type="checkbox" name="cat2-from" value="White">White</label>
+            <label class="option-label"><input type="checkbox" name="cat2-from" value="Purple">Purple</label>
+        </div>
+
+        <div class="sub-title">Final Colour (Select 1):</div>
+        <div class="color-row">
+            <label class="option-label"><input type="checkbox" name="cat2-to" value="Colorless">Colorless</label>
+            <label class="option-label"><input type="checkbox" name="cat2-to" value="Red">Red</label>
+            <label class="option-label"><input type="checkbox" name="cat2-to" value="Green">Green</label>
+            <label class="option-label"><input type="checkbox" name="cat2-to" value="Blue">Blue</label>
+            <label class="option-label"><input type="checkbox" name="cat2-to" value="Yellow">Yellow</label>
+            <label class="option-label"><input type="checkbox" name="cat2-to" value="White">White</label>
+            <label class="option-label"><input type="checkbox" name="cat2-to" value="Purple">Purple</label>
+        </div>
+
+        <label class="option-label" style="width: fit-content; margin-top: 5px;">
+            <input type="checkbox" name="cat2-none" value="No solution colour change">No solution colour change
+        </label>
     </div>
 
     <div class="category-section">
         <div class="category-title">3. Gas Bubble / Smell</div>
-        <div class="options-grid" id="cat3-container"></div>
+        <div class="options-grid">
+            <label class="option-label"><input type="checkbox" name="cat3" value="Colorless gas bubbles">Colorless gas bubbles</label>
+            <label class="option-label"><input type="checkbox" name="cat3" value="Brown gas evolved">Brown gas evolved</label>
+            <label class="option-label"><input type="checkbox" name="cat3" value="Pungent smell">Pungent smell</label>
+            <label class="option-label"><input type="checkbox" name="cat3" value="No gas or smell">No gas or smell</label>
+        </div>
     </div>
 
     <div class="controls">
@@ -156,170 +205,124 @@
 </div>
 
 <script>
-    // 5 Template Reactions Structured into your 3 Custom Categories
+    // Clean JSON Structure: Storing explicit observation metadata targets only.
     const reactions = [
         {
             reactants: "CuCO<sub>3</sub>(s) + H<sub>2</sub>SO<sub>4</sub>(aq)",
-            cat1: {
-                options: ["Green solid dissolves", "Blue solid dissolves", "White precipitate forms", "No precipitate or dissolving change"],
-                correct: ["Green solid dissolves"]
-            },
-            cat2: {
-                options: ["Colorless", "Blue", "Green", "Yellow", "Purple", "No solution colour change"],
-                correct: ["Colorless", "Blue"]
-            },
-            cat3: {
-                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "Brown gas evolved", "No gas or smell observed"],
-                correct: ["Colorless gas bubbles evolved"]
-            }
+            ppt: ["Solid dissolves"],
+            colorFrom: "Colorless",
+            colorTo: "Blue",
+            noColorChange: false,
+            gas: ["Colorless gas bubbles"]
         },
         {
             reactants: "FeSO<sub>4</sub>(aq) + KMnO<sub>4</sub>(aq)/H<sup>+</sup>",
-            cat1: {
-                options: ["Dirty green precipitate forms", "Brown precipitate forms", "No precipitate or dissolving change"],
-                correct: ["No precipitate or dissolving change"]
-            },
-            cat2: {
-                options: ["Colorless", "Purple", "Yellow", "Green", "Brown", "No solution colour change"],
-                correct: ["Purple", "Colorless"] // Purple KMnO4 decolourizes to colorless/very pale yellow
-            },
-            cat3: {
-                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "No gas or smell observed"],
-                correct: ["No gas or smell observed"]
-            }
+            ppt: ["No precipitate or dissolving change"],
+            colorFrom: "Purple",
+            colorTo: "Colorless", // Purple decolourizes to colorless
+            noColorChange: false,
+            gas: ["No gas or smell"]
         },
         {
             reactants: "Cu(s) + 14M HNO<sub>3</sub>(aq)",
-            cat1: {
-                options: ["Reddish-brown solid dissolves", "Silvery solid dissolves", "No precipitate or dissolving change"],
-                correct: ["Reddish-brown solid dissolves"]
-            },
-            cat2: {
-                options: ["Colorless", "Blue", "Green", "Brown", "No solution colour change"],
-                correct: ["Colorless", "Blue"]
-            },
-            cat3: {
-                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "Brown gas evolved", "No gas or smell observed"],
-                correct: ["Brown gas evolved", "Pungent gas evolved"] // NO2 is both brown and pungent
-            }
+            ppt: ["Solid dissolves"],
+            colorFrom: "Colorless",
+            colorTo: "Blue",
+            noColorChange: false,
+            gas: ["Brown gas evolved", "Pungent smell"] // NO2 is both brown and pungent
         },
         {
             reactants: "Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>(aq) + HCl(aq)",
-            cat1: {
-                options: ["Yellow precipitate forms", "White precipitate forms", "No precipitate or dissolving change"],
-                correct: ["Yellow precipitate forms"]
-            },
-            cat2: {
-                options: ["Colorless", "Yellow", "Brown", "No solution colour change"],
-                correct: ["No solution colour change"]
-            },
-            cat3: {
-                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "No gas or smell observed"],
-                correct: ["Pungent gas evolved"] // SO2 gas is pungent
-            }
+            ppt: ["Yellow precipitate forms"],
+            colorFrom: "",
+            colorTo: "",
+            noColorChange: true,
+            gas: ["Pungent smell"] // SO2 gas is pungent
         },
         {
             reactants: "Mg(s) + HCl(aq)",
-            cat1: {
-                options: ["Silvery solid dissolves", "White precipitate forms", "No precipitate or dissolving change"],
-                correct: ["Silvery solid dissolves"]
-            },
-            cat2: {
-                options: ["Colorless", "Blue", "Yellow", "No solution colour change"],
-                correct: ["No solution colour change"]
-            },
-            cat3: {
-                options: ["Colorless gas bubbles evolved", "Pungent gas evolved", "No gas or smell observed"],
-                correct: ["Colorless gas bubbles evolved"]
-            }
+            ppt: ["Solid dissolves"],
+            colorFrom: "",
+            colorTo: "",
+            noColorChange: true,
+            gas: ["Colorless gas bubbles"]
         }
     ];
 
     let currentQuestionIndex = 0;
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    function renderCategory(containerId, catData, catKey) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = "";
-        
-        // Shuffle choices within their category block
-        const shuffledOptions = shuffleArray([...catData.options]);
-
-        shuffledOptions.forEach((opt, index) => {
-            const label = document.createElement("label");
-            label.className = "option-label";
-            
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.value = opt;
-            checkbox.dataset.category = catKey;
-
-            label.appendChild(checkbox);
-            label.appendChild(document.createTextNode(opt));
-            container.appendChild(label);
-        });
-    }
-
     function loadQuestion() {
-        // Clear old feedback and setup buttons
+        // Reset Feedback UI
         document.getElementById("feedback").innerText = "";
         document.getElementById("submit-btn").style.display = "inline-block";
         document.getElementById("next-btn").style.display = "none";
         
+        // Load target formulas
         const q = reactions[currentQuestionIndex];
         document.getElementById("reactants-display").innerHTML = q.reactants;
 
-        // Render all 3 categories cleanly
-        renderCategory("cat1-container", q.cat1, "cat1");
-        renderCategory("cat2-container", q.cat2, "cat2");
-        renderCategory("cat3-container", q.cat3, "cat3");
+        // Reset and clear all checkboxes
+        const allCheckboxes = document.querySelectorAll(".quiz-container input[type='checkbox']");
+        allCheckboxes.forEach(cb => {
+            cb.checked = false;
+            cb.disabled = false;
+            cb.parentElement.className = "option-label"; // clear style states
+        });
+    }
+
+    function evaluateGroup(checkboxes, correctValues) {
+        let perfect = true;
+        checkboxes.forEach(cb => {
+            const label = cb.parentElement;
+            const isChecked = cb.checked;
+            const isCorrect = correctValues.includes(cb.value);
+            cb.disabled = true;
+
+            if (isChecked) {
+                if (isCorrect) {
+                    label.classList.add("correct");
+                } else {
+                    label.classList.add("incorrect");
+                    perfect = false;
+                }
+            } else {
+                if (isCorrect) {
+                    label.classList.add("missed");
+                    perfect = false;
+                }
+            }
+        });
+        return perfect;
     }
 
     function checkAnswers() {
         const q = reactions[currentQuestionIndex];
-        const allCheckboxes = document.querySelectorAll(".option-label input");
-        let scorePerfect = true;
+        
+        // Grab form control groups
+        const cat1CBs = document.querySelectorAll("input[name='cat1']");
+        const cat2FromCBs = document.querySelectorAll("input[name='cat2-from']");
+        const cat2ToCBs = document.querySelectorAll("input[name='cat2-to']");
+        const cat2NoneCBs = document.querySelectorAll("input[name='cat2-none']");
+        const cat3CBs = document.querySelectorAll("input[name='cat3']");
 
-        allCheckboxes.forEach(checkbox => {
-            const label = checkbox.parentElement;
-            const categoryKey = checkbox.dataset.category;
-            const isChecked = checkbox.checked;
-            
-            // Reference the correct answers for this specific category
-            const correctAnswers = q[categoryKey].correct;
-            const isCorrectAnswer = correctAnswers.includes(checkbox.value);
+        // Compute accuracy states against structured metadata target conditions
+        const p1 = evaluateGroup(cat1CBs, q.ppt);
+        
+        const p2_from = evaluateGroup(cat2FromCBs, q.noColorChange ? [] : [q.colorFrom]);
+        const p2_to = evaluateGroup(cat2ToCBs, q.noColorChange ? [] : [q.colorTo]);
+        const p2_none = evaluateGroup(cat2NoneCBs, q.noColorChange ? ["No solution colour change"] : []);
+        
+        const p3 = evaluateGroup(cat3CBs, q.gas);
 
-            checkbox.disabled = true; // Lock choices
+        const isEverythingCorrect = p1 && p2_from && p2_to && p2_none && p3;
 
-            if (isChecked) {
-                if (isCorrectAnswer) {
-                    label.classList.add("correct");
-                } else {
-                    label.classList.add("incorrect");
-                    scorePerfect = false;
-                }
-            } else {
-                if (isCorrectAnswer) {
-                    label.classList.add("missed"); // Highlight correct box that was skipped
-                    scorePerfect = false;
-                }
-            }
-        });
-
-        // Provide overall result feedback
+        // Provide Feedback
         const feedbackDiv = document.getElementById("feedback");
-        if (scorePerfect) {
-            feedbackDiv.innerText = "Excellent! All category observations are completely correct.";
+        if (isEverythingCorrect) {
+            feedbackDiv.innerText = "Excellent! All observations are completely accurate.";
             feedbackDiv.style.color = "#155724";
         } else {
-            feedbackDiv.innerText = "Some observations are incorrect or missing. Check the highlighted options.";
+            feedbackDiv.innerText = "Incorrect or incomplete selections. Review the changes highlighted below.";
             feedbackDiv.style.color = "#721c24";
         }
 
@@ -331,7 +334,7 @@
         currentQuestionIndex++;
         if (currentQuestionIndex >= reactions.length) {
             currentQuestionIndex = 0; 
-            alert("All template reactions completed. Restarting quiz!");
+            alert("All template reactions completed. Restarting quiz pool!");
         }
         loadQuestion();
     }
