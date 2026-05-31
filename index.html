@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Reaction Identifier</title>
+    <style>
+        /* Accessible & Responsive Design Colors */
+        :root {
+            --primary-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+            --accent-blue: #00e5ff;
+            --accent-green: #00e676;
+            --accent-red: #ff1744;
+            --focus-outline: #ffea00;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent-blue);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Game Card */
+        .card {
+            background-color: var(--card-bg);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .chemical-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .chem-badge {
+            background: #333;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #555;
+        }
+
+        .plus {
+            color: var(--accent-blue);
+        }
+
+        /* Form elements */
+        .question-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: #2a2a2a;
+            color: #fff;
+            border: 2px solid #555;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* Custom focus styles for accessibility */
+        select:focus, button:focus {
+            outline: 3px solid var(--focus-outline);
+            outline-offset: 2px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-blue);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #00b8d4;
+        }
+
+        /* Feedback Section */
+        .feedback {
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            display: block;
+            background-color: rgba(0, 230, 118, 0.15);
+            border: 2px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background-color: rgba(255, 23, 68, 0.15);
+            border: 2px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .score-board {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Chemical Reaction Lab</h1>
+        <p style="text-align: center; color: var(--text-muted);">Identify the correct reaction type and the visual observations.</p>
+    </header>
+
+    <main>
+        <div class="card" role="region" aria-labelledby="question-heading">
+            <h2 id="question-heading" class="sr-only">Current Question</h2>
+            
+            <p style="text-align: center; margin: 0; color: var(--text-muted);">What happens when you mix:</p>
+            
+            <div class="chemical-display">
+                <span class="chem-badge" id="chem1">Chemical 1</span>
+                <span class="plus" aria-hidden="true">+</span>
+                <span class="chem-badge" id="chem2">Chemical 2</span>
+            </div>
+
+            <form id="quiz-form" onsubmit="handleSubmit(event)">
+                <div class="question-group">
+                    <label for="reaction-select">Predict the Reaction Type:</label>
+                    <select id="reaction-select" required>
+                        <option value="" disabled selected>-- Choose a reaction type --</option>
+                        <option value="Synthesis">Synthesis</option>
+                        <option value="Decomposition">Decomposition</option>
+                        <option value="Single Replacement">Single Replacement</option>
+                        <option value="Double Replacement">Double Replacement (Precipitation)</option>
+                        <option value="Combustion">Combustion</option>
+                    </select>
+                </div>
+
+                <div class="question-group">
+                    <label for="observation-select">Predict the Visual Observation:</label>
+                    <select id="observation-select" required>
+                        <option value="" disabled selected>-- Choose an observation --</option>
+                        <option value="Gas bubbles and heat released">Vigorous bubbling (gas production) & heat</option>
+                        <option value="Bright white light">A blinding bright white light</option>
+                        <option value="Yellow precipitate">A bright yellow solid forms (precipitate)</option>
+                        <option value="Color change to blue">Solution changes color to a deep blue</option>
+                        <option value="No reaction">No visible changes (No Reaction)</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submit-btn">Submit Answer</button>
+            </form>
+
+            <div id="feedback" class="feedback" role="live" aria-live="assertive"></div>
+        </div>
+
+        <div class="score-board" aria-live="polite">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Dataset of accessible reactions, chemicals, and observations
+    const questions = [
+        {
+            chem1: "Magnesium ribbon (Mg)",
+            chem2: "Oxygen gas (O₂ + heat)",
+            reaction: "Synthesis",
+            observation: "Bright white light"
+        },
+        {
+            chem1: "Hydrochloric Acid (HCl)",
+            chem2: "Zinc metal (Zn)",
+            reaction: "Single Replacement",
+            observation: "Gas bubbles and heat released"
+        },
+        {
+            chem1: "Potassium Iodide (KI)",
+            chem2: "Lead(II) Nitrate (Pb(NO₃)₂)",
+            reaction: "Double Replacement",
+            observation: "Yellow precipitate"
+        },
+        {
+            chem1: "Copper metal (Cu)",
+            chem2: "Silver Nitrate solution (AgNO₃)",
+            reaction: "Single Replacement",
+            observation: "Color change to blue"
+        }
+    ];
+
+    let currentIdx = 0;
+    let score = 0;
+    let totalAsked = 0;
+
+    const chem1El = document.getElementById('chem1');
+    const chem2El = document.getElementById('chem2');
+    const form = document.getElementById('quiz-form');
+    const rxSelect = document.getElementById('reaction-select');
+    const obsSelect = document.getElementById('observation-select');
+    const feedbackEl = document.getElementById('feedback');
+    const scoreEl = document.getElementById('score');
+    const totalEl = document.getElementById('total');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function loadQuestion() {
+        const q = questions[currentIdx];
+        chem1El.textContent = q.chem1;
+        chem2El.textContent = q.chem2;
+        
+        // Reset form
+        form.reset();
+        submitBtn.textContent = "Submit Answer";
+        submitBtn.disabled = false;
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        // If button is clicked while showing next, trigger next question
+        if (submitBtn.textContent === "Next Question") {
+            feedbackEl.className = "feedback";
+            feedbackEl.textContent = "";
+            currentIdx = (currentIdx + 1) % questions.length;
+            loadQuestion();
+            rxSelect.focus(); // Shift focus back to start of form for keyboard/screen reader users
+            return;
+        }
+
+        const currentQuestion = questions[currentIdx];
+        const userRx = rxSelect.value;
+        const userObs = obsSelect.value;
+
+        totalAsked++;
+
+        if (userRx === currentQuestion.reaction && userObs === currentQuestion.observation) {
+            score++;
+            feedbackEl.textContent = "Correct! Spot on prediction.";
+            feedbackEl.className = "feedback correct";
+        } else {
+            feedbackEl.textContent = `Incorrect. Correct Reaction: ${currentQuestion.reaction}. Correct Observation: ${currentQuestion.observation}.`;
+            feedbackEl.className = "feedback incorrect";
+        }
+
+        // Update score UI
+        scoreEl.textContent = score;
+        totalEl.textContent = totalAsked;
+
+        // Change button to proceed state
+        submitBtn.textContent = "Next Question";
+    }
+
+    // Initialize first question on load
+    loadQuestion();
+</script>
+</body>
+</html>
