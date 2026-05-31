@@ -3,408 +3,680 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HKDSE Chemistry Observation Quiz</title>
+    <title>Reaction Observation Check · Identify & Verify</title>
     <style>
+        :root {
+            --bg: #f5f1eb;
+            --card-bg: #ffffff;
+            --primary: #2c6e49;
+            --primary-hover: #1f5237;
+            --accent: #e07a5f;
+            --danger: #c0392b;
+            --text: #2d2a26;
+            --text-light: #5c554d;
+            --border: #d9d0c7;
+            --shadow: 0 4px 24px rgba(0,0,0,0.06);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.25s ease;
+            --font: 'Segoe UI', 'Inter', system-ui, sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: var(--font);
+            background: linear-gradient(160deg, #fdf8f2 0%, #f3ede4 30%, #e8e0d5 100%);
             min-height: 100vh;
-            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            box-sizing: border-box;
+            color: var(--text);
         }
-        .quiz-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            max-width: 680px;
+        .container {
+            max-width: 650px;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
-        h2 {
-            margin-top: 0;
-            color: #2c3e50;
+        .header {
             text-align: center;
-            font-size: 1.5em;
-        }
-        .reactants-box {
-            background: #eef2f5;
-            padding: 18px;
-            border-left: 6px solid #3498db;
-            font-size: 1.4em;
-            font-weight: bold;
             margin-bottom: 22px;
-            border-radius: 4px;
+        }
+        .header h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 24px 22px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 18px;
+            transition: all var(--transition);
+        }
+        .reaction-box {
+            background: #faf9f6;
+            border: 1px dashed #c5b9a8;
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
             text-align: center;
-        }
-        .quiz-step {
-            background: #fff;
-            border: 1px solid #e1e8ed;
-            border-radius: 8px;
-            padding: 16px;
             margin-bottom: 16px;
+            letter-spacing: 0.02em;
         }
-        .step-title {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 12px;
-            font-size: 0.95em;
+        .step-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.06em;
+            background: #eef6f0;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
         }
-        .sub-title {
-            font-size: 0.85em;
-            color: #7f8c8d;
-            margin: 8px 0 4px 0;
-            font-weight: bold;
-        }
-        .fork-options, .color-row, .options-grid {
+        .btn-row {
             display: flex;
+            gap: 12px;
             flex-wrap: wrap;
-            gap: 8px;
-        }
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-        .option-label {
-            display: flex;
-            align-items: center;
-            padding: 8px 14px;
-            background: #f9fbfd;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.2s;
-        }
-        .option-label:hover {
-            background: #f1f5f9;
-        }
-        .option-label input {
-            margin-right: 8px;
-            transform: scale(1.1);
-        }
-        /* Dynamic Hide/Show Classes */
-        .hidden {
-            display: none !important;
-        }
-        .nested-block {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px dashed #e1e8ed;
-        }
-        /* Feedback State Styles */
-        .correct {
-            background-color: #d4edda !important;
-            border-color: #c3e6cb !important;
-            color: #155724;
-        }
-        .incorrect {
-            background-color: #f8d7da !important;
-            border-color: #f5c6cb !important;
-            color: #721c24;
-        }
-        .missed {
-            border: 2px dashed #28a745 !important;
-            background-color: #f4fff6 !important;
-        }
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 25px;
+            margin: 12px 0 6px;
         }
         .btn {
-            background: #3498db;
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1em;
-            border-radius: 6px;
+            flex: 1;
+            min-width: 110px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: var(--font);
         }
-        .btn:hover {
-            background: #2980b9;
+        .btn-yes {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border-color: #a5d6a7;
         }
-        #feedback {
-            margin-top: 15px;
-            font-weight: bold;
-            text-align: center;
-            font-size: 1.1em;
+        .btn-yes:hover { background: #c8e6c9; border-color: #66bb6a; transform: translateY(-2px); }
+        .btn-no {
+            background: #fff3f0;
+            color: #a63a2a;
+            border-color: #f5c6bf;
+        }
+        .btn-no:hover { background: #ffe4db; border-color: #e07a5f; transform: translateY(-2px); }
+        .btn-check {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .btn-check:hover { background: var(--primary-hover); border-color: var(--primary-hover); transform: translateY(-2px); }
+        .btn-try {
+            background: #fff;
+            color: var(--text);
+            border-color: var(--border);
+        }
+        .btn-try:hover { background: #faf7f3; border-color: #b0a394; transform: translateY(-2px); }
+        .btn:active { transform: scale(0.97); }
+
+        .color-select-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .color-select-item {
+            flex: 1;
+            min-width: 130px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .color-select-item label {
+            font-weight: 650;
+            font-size: 0.85rem;
+        }
+        select {
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: #fdfcf9;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: all var(--transition);
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235c554d' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+        }
+        select:hover { border-color: #b0a394; }
+        select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,110,73,0.1); }
+
+        .obs-chips {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+        .chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border: 2px solid var(--border);
+            border-radius: 28px;
+            cursor: pointer;
+            font-weight: 550;
+            font-size: 0.9rem;
+            background: #fdfcf9;
+            transition: all var(--transition);
+            user-select: none;
+        }
+        .chip.selected {
+            background: #fef4f0;
+            border-color: var(--accent);
+            color: #a63a2a;
+            box-shadow: 0 2px 10px rgba(224,122,95,0.15);
+        }
+        .chip .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            transition: all var(--transition);
+        }
+        .chip.selected .dot { background: var(--accent); box-shadow: 0 0 0 4px rgba(224,122,95,0.2); }
+
+        .feedback {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            display: none;
+            animation: fade 0.3s ease;
+        }
+        .feedback.correct { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+        .feedback.incorrect { background: #fff3f0; color: #a63a2a; border: 1px solid #f5c6bf; }
+        @keyframes fade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+        .correct-highlight { border-color: #2c6e49 !important; background: #f0faf3; }
+        .incorrect-highlight { border-color: #c0392b !important; background: #fff5f5; }
+        .hidden { display: none; }
+
+        @media (max-width: 480px) {
+            .card { padding: 18px 14px; }
+            .btn-row { flex-direction: column; }
+            .color-select-group { flex-direction: column; }
+            .obs-chips { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-
-<div class="quiz-container">
-    <h2>Chemical Reaction Analyzer</h2>
-    
-    <div class="reactants-box" id="reactants-display">
-        </div>
-    
-    <div class="quiz-step">
-        <div class="step-title">Does a reaction occur?</div>
-        <div class="fork-options">
-            <label class="option-label"><input type="radio" name="reaction-presence" value="yes" onchange="toggleReactionFlow(this.value)">Have Reaction</label>
-            <label class="option-label"><input type="radio" name="reaction-presence" value="no" onchange="toggleReactionFlow(this.value)">No Reaction</label>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>🧪 Observation Check</h1>
+        <p style="color: var(--text-light); font-size:0.9rem;">Given the reactants, did a reaction occur? What did you see?</p>
     </div>
 
-    <div id="observations-main-panel" class="hidden">
-        
-        <div class="quiz-step">
-            <div class="step-title">Part 1: Solution Colour Change</div>
-            <div class="fork-options">
-                <label class="option-label"><input type="radio" name="color-change-toggle" value="yes" onchange="toggleColorSelectors(this.value)">Yes, color changes</label>
-                <label class="option-label"><input type="radio" name="color-change-toggle" value="no" onchange="toggleColorSelectors(this.value)">No solution color change</label>
-            </div>
+    <div class="card" id="questionCard">
+        <div class="reaction-box" id="reactionDisplay"></div>
 
-            <div id="color-details-grid" class="nested-block hidden">
-                <div class="sub-title">Initial Colour (From):</div>
-                <div class="color-row">
-                    <label class="option-label"><input type="checkbox" name="color-from" value="Colorless">Colorless</label>
-                    <label class="option-label"><input type="checkbox" name="color-from" value="Red">Red</label>
-                    <label class="option-label"><input type="checkbox" name="color-from" value="Green">Green</label>
-                    <label class="option-label"><input type="checkbox" name="color-from" value="Blue">Blue</label>
-                    <label class="option-label"><input type="checkbox" name="color-from" value="Yellow">Yellow</label>
-                    <label class="option-label"><input type="checkbox" name="color-from" value="White">White</label>
-                    <label class="option-label"><input type="checkbox" name="color-from" value="Purple">Purple</label>
+        <div class="step-label">Step 1</div>
+        <p style="margin-bottom:4px; font-weight:500;">Did a chemical reaction occur?</p>
+        <div class="btn-row" id="reactionBtns">
+            <button class="btn btn-yes" onclick="selectReaction(true)">✅ Yes</button>
+            <button class="btn btn-no" onclick="selectReaction(false)">❌ No</button>
+        </div>
+
+        <div id="observationSection" class="hidden">
+            <div style="margin-top:16px;">
+                <p style="font-weight:650; margin-bottom:6px;">🎨 Color change?</p>
+                <div class="btn-row">
+                    <button class="btn btn-yes" id="btnColorYes" onclick="toggleColorChange(true)">Yes</button>
+                    <button class="btn btn-no" id="btnColorNo" onclick="toggleColorChange(false)">No</button>
                 </div>
-
-                <div class="sub-title">Final Colour (To):</div>
-                <div class="color-row">
-                    <label class="option-label"><input type="checkbox" name="color-to" value="Colorless">Colorless</label>
-                    <label class="option-label"><input type="checkbox" name="color-to" value="Red">Red</label>
-                    <label class="option-label"><input type="checkbox" name="color-to" value="Green">Green</label>
-                    <label class="option-label"><input type="checkbox" name="color-to" value="Blue">Blue</label>
-                    <label class="option-label"><input type="checkbox" name="color-to" value="Yellow">Yellow</label>
-                    <label class="option-label"><input type="checkbox" name="color-to" value="White">White</label>
-                    <label class="option-label"><input type="checkbox" name="color-to" value="Purple">Purple</label>
+                <div id="colorSelectors" class="hidden">
+                    <div class="color-select-group">
+                        <div class="color-select-item">
+                            <label>From</label>
+                            <select id="colorFrom">
+                                <option value="" disabled selected>— Select —</option>
+                                <option>Colorless</option><option>White</option><option>Yellow</option>
+                                <option>Orange</option><option>Red</option><option>Purple</option>
+                                <option>Blue</option><option>Green</option><option>Brown</option>
+                                <option>Black</option><option>Grey</option>
+                            </select>
+                        </div>
+                        <div class="color-select-item">
+                            <label>To</label>
+                            <select id="colorTo">
+                                <option value="" disabled selected>— Select —</option>
+                                <option>Colorless</option><option>White</option><option>Yellow</option>
+                                <option>Orange</option><option>Red</option><option>Purple</option>
+                                <option>Blue</option><option>Green</option><option>Brown</option>
+                                <option>Black</option><option>Grey</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:14px;">
+                <p style="font-weight:650; margin-bottom:6px;">🔍 Other observations</p>
+                <div class="obs-chips">
+                    <div class="chip" id="chipPrecipitate" onclick="toggleChip('precipitate')">
+                        <span class="dot"></span> ☁️ Precipitate formed
+                    </div>
+                    <div class="chip" id="chipGas" onclick="toggleChip('gas')">
+                        <span class="dot"></span> 🫧 Gas bubbles
+                    </div>
+                </div>
+                <!-- Precipitate color selector (shown only if precipitate chip selected) -->
+                <div id="precipitateColorGroup" class="hidden" style="margin-top:12px;">
+                    <div class="color-select-item" style="max-width:250px;">
+                        <label>🎨 Color of precipitate</label>
+                        <select id="precipitateColor">
+                            <option value="" disabled selected>— Select —</option>
+                            <option>White</option><option>Yellow</option><option>Orange</option>
+                            <option>Red</option><option>Purple</option><option>Blue</option>
+                            <option>Green</option><option>Brown</option><option>Black</option><option>Grey</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="quiz-step">
-            <div class="step-title">Part 2: Other Observations</div>
-            
-            <div class="sub-title">Precipitate State:</div>
-            <div class="options-grid">
-                <label class="option-label"><input type="checkbox" name="obs-ppt" value="Solid dissolves">Solid dissolves</label>
-                <label class="option-label"><input type="checkbox" name="obs-ppt" value="White precipitate forms">White precipitate forms</label>
-                <label class="option-label"><input type="checkbox" name="obs-ppt" value="Yellow precipitate forms">Yellow precipitate forms</label>
-                <label class="option-label"><input type="checkbox" name="obs-ppt" value="Brown precipitate forms">Brown precipitate forms</label>
-                <label class="option-label"><input type="checkbox" name="obs-ppt" value="No precipitate change">No precipitate change</label>
-            </div>
-
-            <div class="sub-title">Gas / Smell Evolution:</div>
-            <div class="options-grid" style="margin-top: 10px;">
-                <label class="option-label"><input type="checkbox" name="obs-gas" value="Colorless gas bubbles">Colorless gas bubbles</label>
-                <label class="option-label"><input type="checkbox" name="obs-gas" value="Brown gas evolved">Brown gas evolved</label>
-                <label class="option-label"><input type="checkbox" name="obs-gas" value="Pungent smell">Pungent smell</label>
-                <label class="option-label"><input type="checkbox" name="obs-gas" value="No gas or smell">No gas or smell</label>
-            </div>
+        <div class="btn-row" style="margin-top:18px;">
+            <button class="btn btn-check" onclick="checkAnswer()">📋 Check Answer</button>
+            <button class="btn btn-try" onclick="newQuestion()">🔄 Try Another</button>
         </div>
-
+        <div class="feedback" id="feedbackBox"></div>
     </div>
-
-    <div class="controls">
-        <button class="btn" id="submit-btn" onclick="checkAnswers()">Submit Answer</button>
-        <button class="btn" id="next-btn" onclick="nextQuestion()" style="display: none;">Next System</button>
-    </div>
-
-    <div id="feedback"></div>
 </div>
 
 <script>
-    // Clean Data Matrix matching your exact structural conditions
-    const reactions = [
+    // ----- Question Bank (reactants + correct observations) -----
+    const questions = [
         {
-            reactants: "CuCO<sub>3</sub>(s) + H<sub>2</sub>SO<sub>4</sub>(aq)",
-            hasReaction: "yes",
-            hasColorChange: "yes",
+            reactants: "AgNO₃(aq) + NaCl(aq)",
+            reactionOccurs: true,
+            colorChange: true,
             colorFrom: "Colorless",
-            colorTo: "Blue",
-            ppt: ["Solid dissolves"],
-            gas: ["Colorless gas bubbles"]
+            colorTo: "White",
+            precipitate: true,
+            precipitateColor: "White",   // <-- added
+            gasBubbles: false
         },
         {
-            reactants: "FeSO<sub>4</sub>(aq) + KMnO<sub>4</sub>(aq)/H<sup>+</sup>",
-            hasReaction: "yes",
-            hasColorChange: "yes",
-            colorFrom: "Purple",
-            colorTo: "Colorless",
-            ppt: ["No precipitate change"],
-            gas: ["No gas or smell"]
+            reactants: "Fe(s) + CuSO₄(aq)",
+            reactionOccurs: true,
+            colorChange: true,
+            colorFrom: "Blue",
+            colorTo: "Green",
+            precipitate: false,
+            precipitateColor: null,
+            gasBubbles: false
         },
         {
-            reactants: "Cu(s) + HCl(aq)",
-            hasReaction: "no", // Standard HKDSE Unreactive System
-            hasColorChange: "no",
+            reactants: "HCl(aq) + Na₂CO₃(s)",
+            reactionOccurs: true,
+            colorChange: false,
             colorFrom: "",
             colorTo: "",
-            ppt: [],
-            gas: []
+            precipitate: false,
+            precipitateColor: null,
+            gasBubbles: true
         },
         {
-            reactants: "Cu(s) + 14M HNO<sub>3</sub>(aq)",
-            hasReaction: "yes",
-            hasColorChange: "yes",
+            reactants: "BaCl₂(aq) + Na₂SO₄(aq)",
+            reactionOccurs: true,
+            colorChange: true,
             colorFrom: "Colorless",
-            colorTo: "Blue",
-            ppt: ["Solid dissolves"],
-            gas: ["Brown gas evolved", "Pungent smell"]
+            colorTo: "White",
+            precipitate: true,
+            precipitateColor: "White",   // <-- added
+            gasBubbles: false
         },
         {
-            reactants: "Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>(aq) + HCl(aq)",
-            hasReaction: "yes",
-            hasColorChange: "no",
+            reactants: "Zn(s) + HCl(aq)",
+            reactionOccurs: true,
+            colorChange: false,
             colorFrom: "",
             colorTo: "",
-            ppt: ["Yellow precipitate forms"],
-            gas: ["Pungent smell"]
+            precipitate: false,
+            precipitateColor: null,
+            gasBubbles: true
+        },
+        {
+            reactants: "Cu(s) + ZnSO₄(aq)",
+            reactionOccurs: false,
+            colorChange: false,
+            colorFrom: "",
+            colorTo: "",
+            precipitate: false,
+            precipitateColor: null,
+            gasBubbles: false
         }
     ];
 
-    let currentQuestionIndex = 0;
+    let currentQuestion = null;
+    // Student selections
+    let reactionOccurred = null;   // true/false
+    let colorChange = null;       // true/false
+    let colorFrom = '';
+    let colorTo = '';
+    let precipitateSelected = false;
+    let precipitateColor = '';    // <-- new
+    let gasSelected = false;
 
-    // Trigger Flow 1: Toggle Observation Block Visibility
-    function toggleReactionFlow(value) {
-        const panel = document.getElementById("observations-main-panel");
-        if (value === "yes") {
-            panel.classList.remove("hidden");
-        } else {
-            panel.classList.add("hidden");
-        }
+    // DOM elements
+    const reactionDisplay = document.getElementById('reactionDisplay');
+    const observationSection = document.getElementById('observationSection');
+    const colorSelectorsDiv = document.getElementById('colorSelectors');
+    const colorFromSelect = document.getElementById('colorFrom');
+    const colorToSelect = document.getElementById('colorTo');
+    const chipPrecipitate = document.getElementById('chipPrecipitate');
+    const chipGas = document.getElementById('chipGas');
+    const precipitateColorGroup = document.getElementById('precipitateColorGroup');
+    const precipitateColorSelect = document.getElementById('precipitateColor');
+    const feedbackBox = document.getElementById('feedbackBox');
+    const btnColorYes = document.getElementById('btnColorYes');
+    const btnColorNo = document.getElementById('btnColorNo');
+
+    function loadRandomQuestion() {
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        currentQuestion = questions[randomIndex];
+        reactionDisplay.textContent = currentQuestion.reactants + "  →  ?";
+        resetUI();
     }
 
-    // Trigger Flow 2: Toggle Color Grid Fields Visibility
-    function toggleColorSelectors(value) {
-        const colorDetails = document.getElementById("color-details-grid");
-        if (value === "yes") {
-            colorDetails.classList.remove("hidden");
-        } else {
-            colorDetails.classList.add("hidden");
-        }
+    function resetUI() {
+        // Clear selections
+        reactionOccurred = null;
+        colorChange = null;
+        colorFrom = '';
+        colorTo = '';
+        precipitateSelected = false;
+        precipitateColor = '';
+        gasSelected = false;
+
+        // Hide observation section
+        observationSection.classList.add('hidden');
+        colorSelectorsDiv.classList.add('hidden');
+        precipitateColorGroup.classList.add('hidden');
+        chipPrecipitate.classList.remove('selected');
+        chipGas.classList.remove('selected');
+        colorFromSelect.value = '';
+        colorToSelect.value = '';
+        precipitateColorSelect.value = '';
+
+        // Remove highlights
+        removeHighlights();
+        feedbackBox.style.display = 'none';
+        feedbackBox.className = 'feedback';
+
+        // Reset button outlines
+        const allBtns = document.querySelectorAll('#reactionBtns .btn, #btnColorYes, #btnColorNo');
+        allBtns.forEach(b => b.style.outline = 'none');
     }
 
-    function loadQuestion() {
-        document.getElementById("feedback").innerText = "";
-        document.getElementById("submit-btn").style.display = "inline-block";
-        document.getElementById("next-btn").style.display = "none";
-        
-        const q = reactions[currentQuestionIndex];
-        document.getElementById("reactants-display").innerHTML = q.reactants;
+    function selectReaction(occurred) {
+        reactionOccurred = occurred;
+        // visual feedback
+        document.querySelector('#reactionBtns .btn-yes').style.outline = occurred ? '3px solid #2c6e49' : 'none';
+        document.querySelector('#reactionBtns .btn-no').style.outline = !occurred ? '3px solid #c0392b' : 'none';
 
-        // Reset and clear all Form Elements & CSS Modifiers
-        const allInputs = document.querySelectorAll(".quiz-container input");
-        allInputs.forEach(input => {
-            input.checked = false;
-            input.disabled = false;
-            input.parentElement.className = "option-label";
+        if (occurred) {
+            observationSection.classList.remove('hidden');
+            // reset observation selections inside
+            colorChange = null;
+            colorFrom = '';
+            colorTo = '';
+            precipitateSelected = false;
+            precipitateColor = '';
+            gasSelected = false;
+            colorSelectorsDiv.classList.add('hidden');
+            precipitateColorGroup.classList.add('hidden');
+            chipPrecipitate.classList.remove('selected');
+            chipGas.classList.remove('selected');
+            colorFromSelect.value = '';
+            colorToSelect.value = '';
+            precipitateColorSelect.value = '';
+            btnColorYes.style.outline = 'none';
+            btnColorNo.style.outline = 'none';
+        } else {
+            observationSection.classList.add('hidden');
+            // clear observation data
+            colorChange = null;
+            precipitateSelected = false;
+            precipitateColor = '';
+            gasSelected = false;
+        }
+        // hide any previous feedback
+        feedbackBox.style.display = 'none';
+        removeHighlights();
+    }
+
+    function toggleColorChange(yes) {
+        colorChange = yes;
+        btnColorYes.style.outline = yes ? '3px solid #2c6e49' : 'none';
+        btnColorNo.style.outline = !yes ? '3px solid #c0392b' : 'none';
+        if (yes) {
+            colorSelectorsDiv.classList.remove('hidden');
+            colorFromSelect.value = '';
+            colorToSelect.value = '';
+            colorFrom = '';
+            colorTo = '';
+        } else {
+            colorSelectorsDiv.classList.add('hidden');
+            colorFrom = '';
+            colorTo = '';
+            colorFromSelect.value = '';
+            colorToSelect.value = '';
+        }
+        feedbackBox.style.display = 'none';
+        removeHighlights();
+    }
+
+    function toggleChip(type) {
+        if (type === 'precipitate') {
+            precipitateSelected = !precipitateSelected;
+            chipPrecipitate.classList.toggle('selected', precipitateSelected);
+            // Show/hide precipitate color selector
+            if (precipitateSelected) {
+                precipitateColorGroup.classList.remove('hidden');
+                precipitateColorSelect.value = '';
+                precipitateColor = '';
+            } else {
+                precipitateColorGroup.classList.add('hidden');
+                precipitateColor = '';
+                precipitateColorSelect.value = '';
+            }
+        } else if (type === 'gas') {
+            gasSelected = !gasSelected;
+            chipGas.classList.toggle('selected', gasSelected);
+        }
+        feedbackBox.style.display = 'none';
+        removeHighlights();
+    }
+
+    // Update color values when selects change
+    colorFromSelect.addEventListener('change', function() {
+        colorFrom = this.value;
+        feedbackBox.style.display = 'none';
+        removeHighlights();
+    });
+    colorToSelect.addEventListener('change', function() {
+        colorTo = this.value;
+        feedbackBox.style.display = 'none';
+        removeHighlights();
+    });
+    precipitateColorSelect.addEventListener('change', function() {
+        precipitateColor = this.value;
+        feedbackBox.style.display = 'none';
+        removeHighlights();
+    });
+
+    function removeHighlights() {
+        document.querySelectorAll('.correct-highlight, .incorrect-highlight').forEach(el => {
+            el.classList.remove('correct-highlight', 'incorrect-highlight');
         });
-
-        // Hide observation subpanels by default on new question reload
-        document.getElementById("observations-main-panel").classList.add("hidden");
-        document.getElementById("color-details-grid").classList.add("hidden");
     }
 
-    // Standard Array/Value Evaluator Engine
-    function evaluateGroup(inputs, correctValues) {
-        let perfect = true;
-        inputs.forEach(input => {
-            const label = input.parentElement;
-            const isChecked = input.checked;
-            const isCorrect = correctValues.includes(input.value);
-            input.disabled = true;
+    function checkAnswer() {
+        if (!currentQuestion) return;
+        const q = currentQuestion;
 
-            if (isChecked) {
-                if (isCorrect) {
-                    label.classList.add("correct");
+        // Validation: ensure selections are made
+        if (reactionOccurred === null) {
+            alert('Please select whether a reaction occurred.');
+            return;
+        }
+        if (reactionOccurred) {
+            if (colorChange === null) {
+                alert('Please specify if there was a color change.');
+                return;
+            }
+            if (colorChange && (!colorFrom || !colorTo)) {
+                alert('Please select both "From" and "To" colors.');
+                return;
+            }
+            if (precipitateSelected && !precipitateColor) {
+                alert('Please select the color of the precipitate.');
+                return;
+            }
+        }
+
+        // Compare answers
+        let allCorrect = true;
+        let feedbackMessages = [];
+
+        // Reaction occurrence
+        const reactionCorrect = (reactionOccurred === q.reactionOccurs);
+        if (!reactionCorrect) allCorrect = false;
+
+        if (reactionOccurred && q.reactionOccurs) {
+            // Both say reaction occurs, check details
+            const colorCorrect = (colorChange === q.colorChange);
+            if (!colorCorrect) allCorrect = false;
+
+            if (colorChange && q.colorChange) {
+                const fromCorrect = (colorFrom === q.colorFrom);
+                const toCorrect = (colorTo === q.colorTo);
+                if (!fromCorrect || !toCorrect) allCorrect = false;
+            }
+
+            const precipCorrect = (precipitateSelected === q.precipitate);
+            let precipColorCorrect = true;
+            if (precipitateSelected && q.precipitate) {
+                precipColorCorrect = (precipitateColor === q.precipitateColor);
+                if (!precipColorCorrect) allCorrect = false;
+            } else if (!precipitateSelected && q.precipitate) {
+                allCorrect = false; // missed precipitate
+            } else if (precipitateSelected && !q.precipitate) {
+                allCorrect = false; // false positive
+            }
+
+            const gasCorrect = (gasSelected === q.gasBubbles);
+            if (!gasCorrect) allCorrect = false;
+
+            // Build feedback
+            feedbackMessages.push(reactionCorrect ? '✅ Reaction occurrence: correct' : '❌ Reaction occurrence: incorrect (should be Yes)');
+            feedbackMessages.push(colorCorrect ? '✅ Color change: correct' : '❌ Color change: incorrect');
+            if (colorChange && q.colorChange) {
+                feedbackMessages.push((colorFrom === q.colorFrom) ? `✅ Color from: correct (${q.colorFrom})` : `❌ Color from: you chose "${colorFrom}", correct is "${q.colorFrom}"`);
+                feedbackMessages.push((colorTo === q.colorTo) ? `✅ Color to: correct (${q.colorTo})` : `❌ Color to: you chose "${colorTo}", correct is "${q.colorTo}"`);
+            }
+            if (q.precipitate) {
+                if (precipitateSelected) {
+                    feedbackMessages.push(precipColorCorrect ? `✅ Precipitate color: correct (${q.precipitateColor})` : `❌ Precipitate color: you chose "${precipitateColor}", correct is "${q.precipitateColor}"`);
                 } else {
-                    label.classList.add("incorrect");
-                    perfect = false;
+                    feedbackMessages.push('❌ Precipitate: you missed it (should be present)');
                 }
             } else {
-                if (isCorrect) {
-                    label.classList.add("missed");
-                    perfect = false;
+                feedbackMessages.push(precipitateSelected ? '❌ Precipitate: you said yes, but none forms' : '✅ Precipitate: correct (none)');
+            }
+            feedbackMessages.push(gasCorrect ? '✅ Gas bubbles: correct' : '❌ Gas bubbles: incorrect');
+
+        } else if (!reactionOccurred && !q.reactionOccurs) {
+            allCorrect = true;
+            feedbackMessages.push('✅ Correct! No reaction occurs.');
+        } else if (reactionOccurred && !q.reactionOccurs) {
+            allCorrect = false;
+            feedbackMessages.push('❌ You indicated a reaction, but actually no reaction occurs.');
+        } else if (!reactionOccurred && q.reactionOccurs) {
+            allCorrect = false;
+            feedbackMessages.push('❌ You said no reaction, but a reaction does occur.');
+        }
+
+        // Display feedback
+        feedbackBox.style.display = 'block';
+        feedbackBox.innerHTML = feedbackMessages.map(m => `<div>${m}</div>`).join('');
+        feedbackBox.className = 'feedback ' + (allCorrect ? 'correct' : 'incorrect');
+
+        // Highlight elements
+        removeHighlights();
+        // Highlight reaction buttons
+        if (reactionOccurred === true) {
+            document.querySelector('#reactionBtns .btn-yes').classList.add(reactionCorrect ? 'correct-highlight' : 'incorrect-highlight');
+        } else if (reactionOccurred === false) {
+            document.querySelector('#reactionBtns .btn-no').classList.add(reactionCorrect ? 'correct-highlight' : 'incorrect-highlight');
+        }
+
+        if (reactionOccurred && q.reactionOccurs) {
+            // Highlight color change buttons
+            if (colorChange === true) {
+                btnColorYes.classList.add(colorChange === q.colorChange ? 'correct-highlight' : 'incorrect-highlight');
+            } else if (colorChange === false) {
+                btnColorNo.classList.add(colorChange === q.colorChange ? 'correct-highlight' : 'incorrect-highlight');
+            }
+            // Highlight color selects
+            if (colorChange && q.colorChange) {
+                colorFromSelect.classList.add(colorFrom === q.colorFrom ? 'correct-highlight' : 'incorrect-highlight');
+                colorToSelect.classList.add(colorTo === q.colorTo ? 'correct-highlight' : 'incorrect-highlight');
+            }
+            // Highlight precipitate chip and its color selector
+            if (q.precipitate) {
+                chipPrecipitate.classList.add(precipitateSelected ? (precipitateColor === q.precipitateColor ? 'correct-highlight' : 'incorrect-highlight') : 'incorrect-highlight');
+                if (precipitateSelected) {
+                    precipitateColorSelect.classList.add(precipitateColor === q.precipitateColor ? 'correct-highlight' : 'incorrect-highlight');
                 }
-            }
-        });
-        return perfect;
-    }
-
-    function checkAnswers() {
-        const q = reactions[currentQuestionIndex];
-        
-        // Grab form selector control modules
-        const presenceRadios = document.querySelectorAll("input[name='reaction-presence']");
-        const colorToggleRadios = document.querySelectorAll("input[name='color-change-toggle']");
-        const colorFromCBs = document.querySelectorAll("input[name='color-from']");
-        const colorToCBs = document.querySelectorAll("input[name='color-to']");
-        const pptCBs = document.querySelectorAll("input[name='obs-ppt']");
-        const gasCBs = document.querySelectorAll("input[name='obs-gas']");
-
-        // 1. Evaluate Reaction Presence Fork
-        const presenceCorrect = evaluateGroup(presenceRadios, [q.hasReaction]);
-        let observationsCorrect = true;
-
-        // 2. Process observations conditionally if reaction occurs
-        if (q.hasReaction === "yes") {
-            const colorToggleCorrect = evaluateGroup(colorToggleRadios, [q.hasColorChange]);
-            
-            let colorDetailsCorrect = true;
-            if (q.hasColorChange === "yes") {
-                const fromCorrect = evaluateGroup(colorFromCBs, [q.colorFrom]);
-                const toCorrect = evaluateGroup(colorToCBs, [q.colorTo]);
-                colorDetailsCorrect = fromCorrect && toCorrect;
             } else {
-                // If no color change expected, check if user selection was clean
-                evaluateGroup(colorFromCBs, []);
-                evaluateGroup(colorToCBs, []);
+                chipPrecipitate.classList.add(precipitateSelected ? 'incorrect-highlight' : 'correct-highlight');
             }
-
-            const pptCorrect = evaluateGroup(pptCBs, q.ppt);
-            const gasCorrect = evaluateGroup(gasCBs, q.gas);
-
-            observationsCorrect = colorToggleCorrect && colorDetailsCorrect && pptCorrect && gasCorrect;
-        } else {
-            // If No Reaction occurs, disable remaining untouched options clearly
-            document.querySelectorAll("#observations-main-panel input").forEach(i => i.disabled = true);
+            // Highlight gas chip
+            chipGas.classList.add(gasSelected === q.gasBubbles ? 'correct-highlight' : 'incorrect-highlight');
         }
 
-        // Finalize Scoring Assessment Output
-        const feedbackDiv = document.getElementById("feedback");
-        if (presenceCorrect && observationsCorrect) {
-            feedbackDiv.innerText = "Excellent! Your prediction matrix is 100% correct.";
-            feedbackDiv.style.color = "#155724";
-        } else {
-            feedbackDiv.innerText = "Incorrect tracking configuration. Analyze the missed properties.";
-            feedbackDiv.style.color = "#721c24";
+        if (allCorrect) {
+            feedbackBox.style.display = 'block';
+            feedbackBox.innerHTML = '<div>🎉 Perfect! All observations correct.</div>';
+            feedbackBox.className = 'feedback correct';
         }
-
-        document.getElementById("submit-btn").style.display = "none";
-        document.getElementById("next-btn").style.display = "inline-block";
     }
 
-    function nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex >= reactions.length) {
-            currentQuestionIndex = 0; 
-            alert("Quiz target pool completed. Restarting tracker!");
-        }
-        loadQuestion();
+    function newQuestion() {
+        loadRandomQuestion();
+        feedbackBox.style.display = 'none';
+        removeHighlights();
     }
 
-    window.onload = loadQuestion;
+    // Initialize with a random question
+    loadRandomQuestion();
 </script>
-
 </body>
 </html>
