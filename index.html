@@ -311,67 +311,1118 @@
 <script>
     // ----- Question Bank (reactants + correct observations) -----
     const questions = [
-        {
-            reactants: "AgNO₃(aq) + NaCl(aq)",
-            reactionOccurs: true,
-            colorChange: true,
-            colorFrom: "Colorless",
-            colorTo: "White",
-            precipitate: true,
-            precipitateColor: "White",   // <-- added
-            gasBubbles: false
-        },
-        {
-            reactants: "Fe(s) + CuSO₄(aq)",
-            reactionOccurs: true,
-            colorChange: true,
-            colorFrom: "Blue",
-            colorTo: "Green",
-            precipitate: false,
-            precipitateColor: null,
-            gasBubbles: false
-        },
-        {
-            reactants: "HCl(aq) + Na₂CO₃(s)",
-            reactionOccurs: true,
-            colorChange: false,
-            colorFrom: "",
-            colorTo: "",
-            precipitate: false,
-            precipitateColor: null,
-            gasBubbles: true
-        },
-        {
-            reactants: "BaCl₂(aq) + Na₂SO₄(aq)",
-            reactionOccurs: true,
-            colorChange: true,
-            colorFrom: "Colorless",
-            colorTo: "White",
-            precipitate: true,
-            precipitateColor: "White",   // <-- added
-            gasBubbles: false
-        },
-        {
-            reactants: "Zn(s) + HCl(aq)",
-            reactionOccurs: true,
-            colorChange: false,
-            colorFrom: "",
-            colorTo: "",
-            precipitate: false,
-            precipitateColor: null,
-            gasBubbles: true
-        },
-        {
-            reactants: "Cu(s) + ZnSO₄(aq)",
-            reactionOccurs: false,
-            colorChange: false,
-            colorFrom: "",
-            colorTo: "",
-            precipitate: false,
-            precipitateColor: null,
-            gasBubbles: false
-        }
-    ];
+  // ================= CALCIUM CYCLE =================
+  {
+    reactants: "CaCO₃(s) Δ",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "CaO(s) + H₂O(l)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Ca(OH)₂(aq) + CO₂(g)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  },
+  {
+    reactants: "CaCO₃(s) + CO₂(g) + H₂O(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "White",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= METALS + OXYGEN =================
+  {
+    reactants: "K(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Na(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Ca(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Mg(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Al(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Zn(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Fe(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Black",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Pb(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Orange-yellow",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Cu(s) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Reddish-brown",
+    colorTo: "Black",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Hg(l) + O₂(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Red",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Ag(s) + O₂(g) Δ",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Pt(s) + O₂(g) Δ",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Au(s) + O₂(g) Δ",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= METALS + WATER / STEAM =================
+  {
+    reactants: "K(s) + H₂O(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Na(s) + H₂O(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Ca(s) + H₂O(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: true
+  },
+  {
+    reactants: "Mg(s) + H₂O(g) Δ",   // steam
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Al(s) + H₂O(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Zn(s) + H₂O(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Fe(s) + H₂O(g) Δ",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Black",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Pb(s) + H₂O(g) Δ",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Cu(s) + H₂O(g) Δ",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= METALS + DILUTE HCl =================
+  {
+    reactants: "K(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Na(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Ca(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Mg(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Al(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Zn(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Fe(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Pale green",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Pb(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Grey",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: true
+  },
+  {
+    reactants: "Cu(s) + HCl(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Hg(l) + HCl(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Ag(s) + HCl(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= METALS + DILUTE H₂SO₄ =================
+  {
+    reactants: "K(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Na(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Ca(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: true
+  },
+  {
+    reactants: "Mg(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Al(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Zn(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Fe(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Pale green",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Pb(s) + H₂SO₄(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Cu(s) + H₂SO₄(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= METALS + DILUTE / CONC NITRIC ACID =================
+  {
+    reactants: "Mg(s) + dil. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Mg(s) + conc. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Zn(s) + dil. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Zn(s) + conc. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Fe(s) + dil. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Yellow-brown",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Fe(s) + conc. HNO₃(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Al(s) + dil. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Al(s) + conc. HNO₃(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Cu(s) + dil. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Reddish-brown",
+    colorTo: "Blue",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Cu(s) + conc. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Reddish-brown",
+    colorTo: "Blue",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Hg(l) + dil. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Hg(l) + conc. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Ag(s) + dil. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Ag(s) + conc. HNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Pt(s) + dil. HNO₃(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Au(s) + dil. HNO₃(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= METALS + HOT CONC H₂SO₄ =================
+  {
+    reactants: "Cu(s) + hot conc. H₂SO₄(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Reddish-brown",
+    colorTo: "Blue",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Hg(l) + hot conc. H₂SO₄(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Ag(s) + hot conc. H₂SO₄(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: true
+  },
+  {
+    reactants: "Pb(s) + hot conc. H₂SO₄(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Grey",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: true
+  },
+  {
+    reactants: "Zn(s) + hot conc. H₂SO₄(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Mg(s) + hot conc. H₂SO₄(l)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Silvery",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "Fe(s) + hot conc. H₂SO₄(l)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Al(s) + hot conc. H₂SO₄(l)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= DISPLACEMENT REACTIONS =================
+  {
+    reactants: "Fe(s) + CuSO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Blue",
+    colorTo: "Green",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Zn(s) + CuSO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Blue",
+    colorTo: "Colorless",
+    precipitate: true,
+    precipitateColor: "Reddish-brown",
+    gasBubbles: false
+  },
+  {
+    reactants: "Mg(s) + CuSO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Blue",
+    colorTo: "Colorless",
+    precipitate: true,
+    precipitateColor: "Reddish-brown",
+    gasBubbles: false
+  },
+  {
+    reactants: "Cu(s) + AgNO₃(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "Blue",
+    precipitate: true,
+    precipitateColor: "Silvery",
+    gasBubbles: false
+  },
+  {
+    reactants: "Cu(s) + ZnSO₄(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Ag(s) + CuSO₄(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= ACID + METAL OXIDE =================
+  {
+    reactants: "CuO(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Black",
+    colorTo: "Blue",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "CuO(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Black",
+    colorTo: "Green",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Fe₂O₃(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Reddish-brown",
+    colorTo: "Yellow-brown",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "MgO(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= ACID + METAL HYDROXIDE =================
+  {
+    reactants: "NaOH(aq) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Cu(OH)₂(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Al(OH)₃(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= ACID + METAL CARBONATE =================
+  {
+    reactants: "HCl(aq) + Na₂CO₃(s)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "CaCO₃(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "CuCO₃(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Green",
+    colorTo: "Blue",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "ZnCO₃(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+
+  // ================= ACID + METAL HYDROGENCARBONATE =================
+  {
+    reactants: "NaHCO₃(s) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "KHCO₃(s) + H₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+
+  // ================= SPECIAL ION REACTIONS =================
+  {
+    reactants: "Na₂S₂O₃(aq) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "Yellow",
+    precipitate: true,
+    precipitateColor: "Yellow",
+    gasBubbles: true
+  },
+  {
+    reactants: "Na₂SO₃(aq) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "NaOCl(aq) + HCl(aq)",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+
+  // ================= PRECIPITATION REACTIONS =================
+  {
+    reactants: "AgNO₃(aq) + NaCl(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  },
+  {
+    reactants: "BaCl₂(aq) + Na₂SO₄(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  },
+  {
+    reactants: "Pb(NO₃)₂(aq) + KI(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "Yellow",
+    precipitate: true,
+    precipitateColor: "Yellow",
+    gasBubbles: false
+  },
+  {
+    reactants: "FeCl₃(aq) + NaOH(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Yellow-brown",
+    colorTo: "Reddish-brown",
+    precipitate: true,
+    precipitateColor: "Reddish-brown",
+    gasBubbles: false
+  },
+  {
+    reactants: "CuSO₄(aq) + NaOH(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Blue",
+    colorTo: "Light blue",
+    precipitate: true,
+    precipitateColor: "Light blue",
+    gasBubbles: false
+  },
+  {
+    reactants: "FeSO₄(aq) + NaOH(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Pale green",
+    colorTo: "Dirty green",
+    precipitate: true,
+    precipitateColor: "Dirty green",
+    gasBubbles: false
+  },
+
+  // ================= CATION TESTS WITH NaOH =================
+  {
+    reactants: "Al³⁺(aq) + NaOH(aq) (few drops)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  },
+  {
+    reactants: "Al(OH)₃(s) + excess NaOH(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "White",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Zn²⁺(aq) + NaOH(aq) (few drops)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  },
+  {
+    reactants: "Zn(OH)₂(s) + excess NaOH(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "White",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Pb²⁺(aq) + NaOH(aq) (few drops)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  },
+  {
+    reactants: "Pb(OH)₂(s) + excess NaOH(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "White",
+    colorTo: "Colorless",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+  {
+    reactants: "Mg²⁺(aq) + NaOH(aq)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  },
+  {
+    reactants: "Ca²⁺(aq) + NaOH(aq)",
+    reactionOccurs: false,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: false
+  },
+
+  // ================= AMMONIA TEST / REACTIONS =================
+  {
+    reactants: "NH₄⁺(aq) + NaOH(aq) Δ",
+    reactionOccurs: true,
+    colorChange: false,
+    colorFrom: "",
+    colorTo: "",
+    precipitate: false,
+    precipitateColor: null,
+    gasBubbles: true
+  },
+  {
+    reactants: "NH₃(g) + HCl(g)",
+    reactionOccurs: true,
+    colorChange: true,
+    colorFrom: "Colorless",
+    colorTo: "White",
+    precipitate: true,
+    precipitateColor: "White",
+    gasBubbles: false
+  }
+];
 
     let currentQuestion = null;
     // Student selections
